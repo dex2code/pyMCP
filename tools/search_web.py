@@ -45,14 +45,8 @@ class DDGResult(BaseModel):
         description="Short text excerpt from the result",
         examples=["Python is a high-level, general-purpose programming language..."],
     )
-    source: str = Field(
-        default="",
-        title="Source",
-        description="Source the result came from",
-        examples=["duckduckgo"],
-    )
 
-    @field_validator("title", "url", "snippet", "source", mode="before")
+    @field_validator("title", "url", "snippet", mode="before")
     @classmethod
     def _to_clean_str(cls, value: Any) -> str:
         """Turn None / non-str into a stripped string, never raise."""
@@ -85,7 +79,6 @@ def _item_to_raw_dict(item: object) -> dict[str, object]:
         "title": getattr(item, "title", None),
         "url": getattr(item, "url", None),
         "snippet": getattr(item, "snippet", None),
-        "source": getattr(item, "source", None),
     }
 
 
